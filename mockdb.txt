@@ -14,3 +14,8 @@ zip code: local host
   "survey_id": "COVID-19"
 }
 zip code: local host
+{
+  "response": "I think the vaccine distribution could be better.",
+  "survey_id": "COVID-19"
+}
+zip code: local host

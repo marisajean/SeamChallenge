@@ -4,10 +4,13 @@ import json
 
 app = Flask(__name__)
 
+#method using online service to pull zip code estimation from IP address
 def get_zipcode(ip_address):
 	try:
+		#if running locally, just labels as local host
 		if ip_address == "127.0.0.1":
 			return("local host")
+		#pulls JSON data from API to estimate user zip code per submission
 		else:
 			response = requests.get("http://ip-api.com/json/{}".format(ip_address))
 			js = response.json()
@@ -16,6 +19,8 @@ def get_zipcode(ip_address):
 	except Exception as e:
 		return "Unknown"
 
+#reads "database" of zip codes to identify up to the top 3 most freq occuring locations
+#for task purposes, "database" is simulated through a text file
 def gettopzips(file):
 	zips = {}
 	f = open(file, "r")
@@ -37,10 +42,15 @@ def gettopzips(file):
 	else:
 		return str(sorted_keys)
 		#return sorted_keys[0] + "<br>" + sorted_keys[1] + "<br>" + sorted_keys[2]
+
+#Home page for the survey
 @app.route("/response")
 def index():
 	return render_template("index.html")
 
+#Post method for response
+#Alerts users of their submission and adds response JSON to "database" and zip code to "database"
+#"Database" simulated through text file for task purposes
 @app.route("/response", methods=['POST'])
 def response():
 	input = request.form.get('response')
@@ -57,13 +67,16 @@ def response():
 	f2.close()
 	return "Thank you for the following response.<br><br>{<br>response: " + input + "<br>survey_id: " + id + "<br>}"
 
+#Get method for survey data
+#returns JSON of each response followed by estimated zip code
+#Outputs up to the top 3 most freq zip codes 
 @app.route("/survey/<survey_id>", methods=['GET'])
 def results(survey_id):
+	output_final = ""
 	if survey_id == "COVID-19":
 		f = open('mockdb.txt', 'r')
 		output = f.readlines()
 		f.close()
-		output_final = ""
 		for line in output:
 			output_final += line + "<br>"
 		common_zips = gettopzips('zips.txt')
