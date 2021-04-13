@@ -1,0 +1,16 @@
+
+{
+  "response": "I think that the community did well.",
+  "survey_id": "COVID-19"
+}
+zip code: local host
+{
+  "response": "I think the community did badly.",
+  "survey_id": "COVID-19"
+}
+zip code: local host
+{
+  "response": "I think the community did okay. Not great, but not too badly. ",
+  "survey_id": "COVID-19"
+}
+zip code: local host
